@@ -43,12 +43,12 @@ fn populate_cards(json: Value) -> Result<(String, Vec<Card>), Error> {
                 let card_name: String = card_digest["name"].as_str().ok_or(Error::InvalidJsonType("String".to_owned(), card_digest.clone()))?.to_owned();
                 let image_uris = card_digest["image_uris"].clone();
                 let front: Option<String> = if image_uris["front"].is_string() {
-                    Some(image_uris["front"].as_str().ok_or(Error::InvalidJsonType("String".to_owned(), image_uris["front"].clone()))?.to_owned())
+                    Some(image_uris["front"].as_str().ok_or(Error::InvalidJsonType("String".to_owned(), image_uris["front"].clone()))?.to_owned().replace("large", "png").replace(".jpg", ".png").split("?").collect::<Vec<&str>>()[0].to_owned())
                 } else {
                     None
                 };
                 let back: Option<String> = if image_uris["back"].is_string() {
-                    Some(image_uris["back"].as_str().ok_or(Error::InvalidJsonType("String".to_owned(), image_uris["back"].clone()))?.to_owned())
+                    Some(image_uris["back"].as_str().ok_or(Error::InvalidJsonType("String".to_owned(), image_uris["back"].clone()))?.to_owned().replace("large", "png").replace(".jpg", ".png").split("?").collect::<Vec<&str>>()[0].to_owned())
                 } else {
                     None
                 };
